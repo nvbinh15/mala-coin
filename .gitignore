@@ -1,0 +1,11 @@
+# ignore python cache
+*/__pycache__
+malacoin/__pycache__
+mala/__pycache__
+
+# environment
+.env
+.env/
+.venv/
+env/
+venv/
