@@ -8,6 +8,32 @@ from datetime import datetime
 class Blockchain(object):
     def __init__(self):
         self.chain = [] #initialize an empty list of Blocks
+        self.pending_transactions = []
+        self.difficulty = 4
+        self.miner_rewards = 50
+        self.block_size = 10
+    
+    def add_transaction(self, sender, receiver, amount, key_string, sender_key):
+        key_byte = key_string.encode('ASCII')
+        sender_key_byte = sender_key.encode('ASCII')
+
+        key = RSA.import_key(key_byte)
+        sender_key = RSA.import_key(sender_key_byte)
+        if not sender or not receiver or not amount:
+            print('Transaction error')
+            return False
+        
+        transaction = Transaction(sender, receiver, amount)
+
+        transaction.sign_transaction(key, sender_key)
+
+        if not transaction.is_valid_transaction():
+            print('Transaction error')
+            return False
+        
+        self.pending_transactions.append(transaction)
+        return len(self.chain) + 1
+
 
     def get_last_block(self):
         return self.chain[-1]
@@ -39,12 +65,25 @@ class Block(object):
         hash_encoded = json.dumps(hash_string, sort_keys=True).encode()
         return hashlib.sha256(hash_encoded).hexdigest()
 
+    def mine_block(self, difficulty=4):
+        head = '0' * difficulty
+        
+        # compute until the beginning of the hash is head
+        while self.hash[0:difficulty] != head:
+            self.nonce += 1
+            self.hash = self.calculate_hash()
+
+        print("Block mined")
+        return True
+
+
     def __str__(self):
-        result = f"Block: {self.index}\n" + f"Hash: {self.hash}\n"
+        result = '----------\n\n'
+        result += f"Block: {self.index}\n" + f"Hash: {self.hash}\n"
         result += f"Transactions:\n"
         for transaction in self.transactions:
             result += '    ' + str(transaction) + '\n'
-        result += f"Time created: {self.time}\n" + f"Previous hash: {self.prev}\n" + f"Nonce: {self.nonce}"
+        result += f"Time created: {self.time}\n" + f"Previous hash: {self.prev}\n" + f"Nonce: {self.nonce}\n"
         return result
 
 class Transaction(object):
