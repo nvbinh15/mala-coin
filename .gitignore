@@ -9,3 +9,6 @@ mala/__pycache__
 .venv/
 env/
 venv/
+
+* keys
+/malacoin/*.pem
