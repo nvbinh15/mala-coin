@@ -1,5 +1,5 @@
 from django.test import TestCase
-from models import *
+from scratch_model import *
 
 
 chain = Blockchain()

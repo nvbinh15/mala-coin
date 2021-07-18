@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'malacoin',
+    'malacoin.apps.MalacoinConfig',
 
     'django.contrib.admin',
     'django.contrib.auth',

@@ -2,6 +2,8 @@
 */__pycache__
 malacoin/__pycache__
 mala/__pycache__
+*/__pycache__
+*/*/__pycache__
 
 # environment
 .env
@@ -9,6 +11,13 @@ mala/__pycache__
 .venv/
 env/
 venv/
+.DS_Store
 
-* keys
+# keys
 /malacoin/*.pem
+
+# database
+*.sqlite3
+
+
+
